@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+
 use App\BlogPost;
+use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -27,6 +28,19 @@ class PostController extends Controller
     public function show($id)
     {
         return view( 'posts.show', [ 'post' => BlogPost::findOrFail($id)] );
+    }
+
+    public function create()
+    {
+        return view('posts.create');
+
+    }
+
+    public function store(Request $request)
+    {
+        $title = $request->input('title');
+        $content = $request->input('content');
+        dd($title, $content);
     }
 
 
