@@ -27,9 +27,8 @@ class PostTest extends TestCase
 
         //Assert
         $response->assertSeeText('New title');
-        $response->assertSeeText('blog_posts',[
-            'title' => 'New title'
-        ]);
+        $response->assertSeeText('No comments yet!');
+
 
         $this->assertDatabaseHas('blogposts', [
             'title' => 'New title'
@@ -89,13 +88,11 @@ class PostTest extends TestCase
     {
         $post = $this->createDummyBlogPost();
         $this->assertDatabaseHas('blogposts', $post->toArray());
-
         $this->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
-
-        $this->assertEquals(session('status'), 'Blog post was Deleted!!!');
-        $this->assertDatabaseMissing('blogposts',$post->toArray());
+        $this->assertEquals(session('status'), 'Blog post was deleted!');
+        $this->assertDatabaseMissing('blogposts', $post->toArray());
     }
 
     private function createDummyBlogPost(): BlogPost
