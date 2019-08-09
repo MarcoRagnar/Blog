@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\BlogPost;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePost;
+//use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -16,7 +17,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view( 'posts.index', [ 'posts' => BlogPost::all()] );
+        /*DB::connection()->enableQueryLog();
+
+        $posts = BlogPost::all();
+
+        foreach($posts as $post){
+            foreach ($post->comments as $comment ) {
+                echo $comment->content;
+            }
+
+        }
+        dd(DB::getQueryLog());*/
+       //comments count
+        return view( 'posts.index',
+        [ 'posts' => BlogPost::withCount('comments')->get()] );
     }
 
 
@@ -69,10 +83,10 @@ class PostController extends Controller
     {
         $post = BlogPost::findOrFail($id);
         $post->delete();
-        $request->session()->flash('status', 'Blog post was Deleted!!!');
+        $request->session()->flash
+        ('
+        ', 'Blog post was Deleted!!!');
         return redirect()->route('posts.index');
 
     }
-
-
 }

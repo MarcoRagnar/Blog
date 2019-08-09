@@ -27,6 +27,9 @@ class PostTest extends TestCase
 
         //Assert
         $response->assertSeeText('New title');
+        $response->assertSeeText('blog_posts',[
+            'title' => 'New title'
+        ]);
 
         $this->assertDatabaseHas('blogposts', [
             'title' => 'New title'
@@ -95,7 +98,8 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('blogposts',$post->toArray());
     }
 
-    private function createDummyBlogPost(){
+    private function createDummyBlogPost(): BlogPost
+    {
         $post = new BlogPost();
         $post->title = 'New title';
         $post->content = 'Content of the blog post';
